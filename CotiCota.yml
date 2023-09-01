@@ -1,0 +1,521 @@
+openapi: 3.0.0
+info:
+  title: API de Gestion des Cotisations des Clubs d'École
+  version: 1.0.0
+
+servers:
+  - url: https://votre-domaine.com/api
+
+paths:
+  /clubs:
+    post:
+      tags:
+        - Clubs
+      summary: Créer un club
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClubInput'
+      responses:
+        '200':
+          description: Club créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+
+    get:
+      tags:
+        - Clubs
+      summary: Obtenir la liste des clubs
+      responses:
+        '200':
+          description: Liste des clubs obtenue avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Club'
+
+  /clubs/{club_id}:
+    get:
+      tags:
+        - Clubs
+      summary: Obtenir les détails d'un club
+      parameters:
+        - name: club_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détails du club obtenus avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+    delete:
+      tags:
+        - Clubs
+      summary: Supprimer un club
+      parameters:
+        - name: club_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Club supprimé avec succès
+
+    put:
+      tags:
+        - Clubs
+      summary: Mettre à jour un club
+      parameters:
+        - name: club_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClubInput'
+      responses:
+        '200':
+          description: Club mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Club'
+
+  /membres:
+    post:
+      tags:
+        - Membres
+      summary: Créer un membre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembreInput'
+      responses:
+        '200':
+          description: Membre créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membre'
+
+  /membres/{membre_id}:
+    get:
+      tags:
+        - Membres
+      summary: Obtenir les détails d'un membre
+      parameters:
+        - name: membre_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détails du membre obtenus avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membre'
+    put:
+      tags:
+        - Membres
+      summary: Mettre à jour un membre
+      parameters:
+        - name: membre_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembreInput'
+      responses:
+        '200':
+          description: Membre mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membre'
+    delete:
+      tags:
+        - Membres
+      summary: Supprimer un membre
+      parameters:
+        - name: membre_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Membre supprimé avec succès
+
+  /membres/{membre_id}/cotisations:
+    get:
+      tags:
+        - Membres
+      summary: Obtenir les cotisations d'un membre
+      parameters:
+        - name: membre_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des cotisations du membre obtenue avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cotisation'
+    post:
+      tags:
+        - Cotisations
+      summary: Créer une cotisation pour un membre
+      parameters:
+        - name: membre_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CotisationInput'
+      responses:
+        '201':
+          description: Cotisation créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cotisation'
+                
+  /annonces:
+    post:
+      tags:
+        - Annonces
+      summary: Créer une annonce
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnonceInput'
+      responses:
+        '201':
+          description: Annonce créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annonce'
+
+    get:
+      tags:
+        - Annonces
+      summary: Obtenir la liste des annonces
+      responses:
+        '200':
+          description: Liste des annonces obtenue avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Annonce'
+
+  /annonces/{annonce_id}:
+    get:
+      tags:
+        - Annonces
+      summary: Obtenir les détails d'une annonce
+      parameters:
+        - name: annonce_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détails de l'annonce obtenus avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annonce'
+
+    put:
+      tags:
+        - Annonces
+      summary: Mettre à jour une annonce
+      parameters:
+        - name: annonce_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnonceInput'
+      responses:
+        '200':
+          description: Annonce mise à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Annonce'
+
+    delete:
+      tags:
+        - Annonces
+      summary: Supprimer une annonce
+      parameters:
+        - name: annonce_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Annonce supprimée avec succès
+
+  /evenements:
+    post:
+      tags:
+        - Événements
+      summary: Créer un événement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvenementInput'
+      responses:
+        '201':
+          description: Événement créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evenement'
+
+    get:
+      tags:
+        - Événements
+      summary: Obtenir la liste des événements
+      responses:
+        '200':
+          description: Liste des événements obtenue avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Evenement'
+
+  /evenements/{evenement_id}:
+    get:
+      tags:
+        - Événements
+      summary: Obtenir les détails d'un événement
+      parameters:
+        - name: evenement_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Détails de l'événement obtenus avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evenement'
+
+    put:
+      tags:
+        - Événements
+      summary: Mettre à jour un événement
+      parameters:
+        - name: evenement_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvenementInput'
+      responses:
+        '200':
+          description: Événement mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evenement'
+
+    delete:
+      tags:
+        - Événements
+      summary: Supprimer un événement
+      parameters:
+        - name: evenement_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Événement supprimé avec succès
+
+
+components:
+  schemas:
+    ClubInput:
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+        responsable_name:
+          type: string
+
+    Club:
+      type: object
+      properties:
+        id:
+          type: string
+        nom:
+          type: string
+        description:
+          type: string
+        responsable_name:
+          type: string
+
+    MembreInput:
+      type: object
+      properties:
+        nom:
+          type: string
+        prenom:
+          type: string
+        email:
+          type: string
+        numero_telephone:
+          type: string
+        club_id:
+          type: string
+
+    Membre:
+      type: object
+      properties:
+        id:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        email:
+          type: string
+        numero_telephone:
+          type: string
+        club_id:
+          type: string
+
+    CotisationInput:
+      type: object
+      properties:
+        membre_id:
+          type: string
+        montant:
+          type: number
+        date_de_paiement:
+          type: string
+        statut:
+          type: string
+          enum: [payee, en_attente, en_retard]
+
+    Cotisation:
+      type: object
+      properties:
+        id:
+          type: string
+        membre_id:
+          type: string
+        montant:
+          type: number
+        date_de_paiement:
+          type: string
+        statut:
+          type: string
+
+    AnnonceInput:
+      type: object
+      properties:
+        titre:
+          type: string
+        contenu:
+          type: string
+        club_id:
+          type: string
+
+    Annonce:
+      type: object
+      properties:
+        id:
+          type: string
+        titre:
+          type: string
+        contenu:
+          type: string
+        club_id:
+          type: string
+
+    EvenementInput:
+      type: object
+      properties:
+        titre:
+          type: string
+        date:
+          type: string
+        club_id:
+          type: string
+
+    Evenement:
+      type: object
+      properties:
+        id:
+          type: string
+        titre:
+          type: string
+        date:
+          type: string
+        club_id:
+          type: string
