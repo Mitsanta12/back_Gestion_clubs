@@ -2,13 +2,24 @@ const db = require('../db.js');
 
 async function createMember(req, res) {
   const member = req.body;
+
+  // Validation des données 
+  if (!member.nom || !member.prenom || !member.email || !member.numero_telephone || !member.club_id) {
+    return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
+  }
+
   try {
-    const newMember = await db.none('INSERT INTO members (nom, prenom, club_id) VALUES ($1, $2, $3)', [member.nom, member.prenom, member.club_id]);
+    const newMember = await db.none(
+      'INSERT INTO members (nom, prenom, email, numero_telephone, club_id) VALUES ($1, $2, $3, $4, $5)',
+      [member.nom, member.prenom, member.email, member.numero_telephone, member.club_id]
+    );
     res.status(201).json(newMember);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating member' });
+    console.error('Erreur lors de la création du membre :', error);
+    res.status(500).json({ message: 'Une erreur s\'est produite lors de la création du membre.' });
   }
 }
+
 
 async function getMembers(req, res) {
   try {
