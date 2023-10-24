@@ -44,7 +44,8 @@ async function updateMember(req, res) {
   const memberId = req.params.member_id;
   const updatedMember = req.body;
   try {
-    const updated = await db.result('UPDATE members SET nom=$1, prenom=$2, club_id=$3 WHERE member_id=$4', [updatedMember.nom, updatedMember.prenom, updatedMember.club_id, memberId]);
+    const updated = await db.result('UPDATE members SET nom=$1, prenom=$2, email=$3, numero_telephone=$4, club_id=$5 WHERE member_id=$6',
+    [updatedMember.nom, updatedMember.prenom, updatedMember.email, updatedMember.numero_telephone, updatedMember.club_id, memberId]);
     if (updated.rowCount === 0) {
       throw new Error('Member not found');
     }
@@ -53,6 +54,7 @@ async function updateMember(req, res) {
     res.status(404).json({ message: 'Member not found' });
   }
 }
+
 
 async function deleteMember(req, res) {
   const memberId = req.params.member_id;
