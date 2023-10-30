@@ -3,7 +3,7 @@ const pgp = require('pg-promise')();
 const connectionOptions = {
     host: 'localhost',
     port: 5432,
-    database: 'coticota',
+    database: 'clubs_gestion',
     user: 'postgres',
     password: 'NY AINA@2022'
   };
